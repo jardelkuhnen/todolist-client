@@ -1,0 +1,5 @@
+.flex-container {
+    display: end end;
+    justify-content: space-between;
+    width: 480px;
+  }

@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { getLocaleDateFormat, FormatWidth, DatePipe } from '@angular/common';
+import { Menu } from './model/menu';
+import { of, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +10,25 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'client';
+ 
+  title: string = 'Listagem de Tarefas';
+  menus$: Observable<Menu[]>;
+
+  constructor() {}
+    
+    ngOnInit(): void {
+      this.menus$ = this.getMenus();
+      this.title = 'Listagem de Tarefas';
+    }
+
+    getMenus() {
+      return of([
+          new Menu('Orders', 'orders'),
+      ]);
+  }
+
+
+ 
+
+  
 }
