@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder } from '@angular/forms';
 import { OrderServiceService } from '../order-service.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 import { Order } from 'src/app/model/order';
 
 @Component({
@@ -16,7 +16,7 @@ export class OrderListComponent implements OnInit {
 
   private unsubscribe$: Subject<any> = new Subject<any>();
   
-  itens: Order[] = [];
+  orders: Observable<Order[]>;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,23 +26,23 @@ export class OrderListComponent implements OnInit {
     private orderService: OrderServiceService) { }
 
   ngOnInit(): void {
+    this.loadOrders();
+  }
 
+  private loadOrders() {
     this.orderService.getAll()
-      .pipe(
-        takeUntil( this.unsubscribe$ )
-      )  
-      .subscribe(data => {
-        this.itens = data.content;
-    });
-
+      .pipe(takeUntil(this.unsubscribe$), tap(p => console.log(p)))
+      .subscribe();
+    this.orders = this.orderService.getAll();
   }
 
-  onAdd(item) {
-    console.log(item);
-  }
-
-  onRemove(item) {
-    console.log(item);
+  onRemove(e: Event, order: Order) {
+    this.orderService.delete(order.id).subscribe((data)=> { this.loadOrders(); }, 
+    (err)=> {
+      console.log(err);
+    })
+    e.preventDefault();
+    e.stopImmediatePropagation();
   }
 
   ngOnDestroy() {

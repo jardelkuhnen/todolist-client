@@ -1,17 +1,21 @@
 <div layout="column" layout-fill>
 
     <div fxLayout="column" fxLayoutAlign="space-between" >
-        <mat-nav-list *ngFor="let item of itens; let i=index;">
-    
-            <a mat-list-item [routerLink]="['order', item.id]">
+
+
+        <mat-nav-list *ngFor="let order of (orders | async)?.content; let i=index;">
+            <a mat-list-item [routerLink]="['order', order.id]">
+
                 <mat-icon mat-list-icon>assignment</mat-icon>
-                <span matLine>{{item.description}}</span>
                 
-                <button mat-icon-button (click)="onRemove(item)">
+                <span matLine>{{order.description}}</span>
+                
+                <button mat-icon-button (click)="onRemove($event, order)">
                     <mat-icon color="warn">delete</mat-icon>
                 </button>
             </a>
         </mat-nav-list>
+
 
         <mat-divider></mat-divider>
 

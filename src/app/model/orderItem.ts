@@ -5,5 +5,4 @@ export interface OrderItem {
     isFinished: boolean;
     registerDate?: Date;
     updateDate?: Date;
-    orderId?: number;
 }

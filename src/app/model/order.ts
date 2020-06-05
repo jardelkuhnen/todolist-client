@@ -6,5 +6,5 @@ export interface Order {
     description: string;
     registerDate?: Date;
     updateDate?: Date;
-    orderItens?: OrderItem[];
+    itens: OrderItem[];
 }
