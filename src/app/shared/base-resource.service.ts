@@ -44,7 +44,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> extends B
 
 	public getById(id: string): Observable<T> {
 		return this.http
-			.get(`${this.url}/${this.apiPath}?id=${id}`, super.httpJsonAuth())
+			.get(`${this.url}/${this.apiPath}/${id}`, super.httpJsonAuth())
 			.pipe(
 				map(this.extractData),
 				catchError(this.mapsError)
