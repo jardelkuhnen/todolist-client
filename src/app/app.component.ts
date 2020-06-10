@@ -11,14 +11,14 @@ import { of, Observable } from 'rxjs';
 })
 export class AppComponent {
  
-  title: string = 'Listagem de Tarefas';
+  title: string = 'Task List';
   menus$: Observable<Menu[]>;
 
   constructor() {}
     
     ngOnInit(): void {
       this.menus$ = this.getMenus();
-      this.title = 'Listagem de Tarefas';
+      this.title = 'Task List';
     }
 
     getMenus() {

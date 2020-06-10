@@ -6,6 +6,8 @@ import { OrderServiceService } from '../order-service.service';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { Order } from 'src/app/model/order';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-order-list',
@@ -23,7 +25,8 @@ export class OrderListComponent implements OnInit {
     private router: Router,
     private messages: MatSnackBar,
     private fb: FormBuilder,
-    private orderService: OrderServiceService) { }
+    private orderService: OrderServiceService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadOrders();
@@ -37,12 +40,30 @@ export class OrderListComponent implements OnInit {
   }
 
   onRemove(e: Event, order: Order) {
-    this.orderService.delete(order.id).subscribe((data)=> { this.loadOrders(); }, 
-    (err)=> {
-      console.log(err);
-    })
+
     e.preventDefault();
     e.stopImmediatePropagation();
+     
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        data: { description: order.description }
+    });
+
+    dialogRef.afterClosed().subscribe(confirm => {
+      
+      if(confirm) {
+
+        this.orderService.delete(order.id).subscribe((data)=> { this.loadOrders(); }, 
+        (err)=> {
+          console.log(err);
+        })
+
+        
+      }
+
+      
+
+    });
+    
   }
 
   ngOnDestroy() {
