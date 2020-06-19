@@ -11,6 +11,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { OrderListComponent } from './order/order-list/order-list.component';
 import { OrderFormComponent } from './order/order-form/order-form.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     NotFoundComponent,
     OrderListComponent,
     OrderFormComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,

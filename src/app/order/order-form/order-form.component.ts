@@ -74,7 +74,9 @@ export class OrderFormComponent implements OnInit {
 
   populateForm(orderId)  {
     this.orderService.getById(orderId).subscribe(data => {
-      let order: Order = data.content[0];
+      let order: Order = data;
+
+      console.log(order.description);
 
       this.orderForm.get('orderDescription').setValue(order.description);
       this.orderForm.get('orderId').setValue(order.id);

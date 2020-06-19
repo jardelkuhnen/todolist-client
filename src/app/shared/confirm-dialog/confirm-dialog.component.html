@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Delete register ?</h2>
+
+<mat-dialog-content class="mat-typography">
+    <h3>Would you like to remove {{ data.description }} register ?</h3>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close cdkFocusInitial><mat-icon>cancell</mat-icon></button>
+    <button mat-button [mat-dialog-close]="true" >
+        <mat-icon color="warn">delete</mat-icon>
+    </button>
+</mat-dialog-actions>

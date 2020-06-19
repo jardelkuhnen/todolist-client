@@ -3,25 +3,13 @@
   
   <div layout="row">
 
-    <mat-toolbar color="primary">
+    <mat-toolbar color="accent">
       <mat-toolbar-row>
           <span routerLink='/' >{{ title }}</span>
       </mat-toolbar-row>
     </mat-toolbar>
     
     <div layout="column">
-
-      <!-- <nav mat-tab-nav-bar color='primary'>
-        <a *ngFor='let menu of (menus$ | async)'
-          mat-tab-link
-          routerLinkActive
-          #rla='routerLinkActive'
-          [active]= 'rla.isActive'
-          routerLink='{{menu.path}}'
-        > {{menu.name}}</a>
-      </nav> -->
-
-      
     </div>
     <router-outlet flex="100" class="content"></router-outlet>
     
