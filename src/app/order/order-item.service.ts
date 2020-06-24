@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { OrderItem } from '../model/orderItem';
-import { BaseResourceService } from '../shared/base-resource.service';
+import { BaseResourceService } from '../shared/_services/base-resource.service';
 import { Observable } from 'rxjs';
 
 @Injectable({

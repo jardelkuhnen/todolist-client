@@ -8,6 +8,7 @@ import { takeUntil, tap } from 'rxjs/operators';
 import { Order } from 'src/app/model/order';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+import { AuthenticationService } from 'src/app/shared/_services/authentication.service';
 
 @Component({
   selector: 'app-order-list',
@@ -26,7 +27,8 @@ export class OrderListComponent implements OnInit {
     private messages: MatSnackBar,
     private fb: FormBuilder,
     private orderService: OrderServiceService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.loadOrders();
@@ -34,7 +36,7 @@ export class OrderListComponent implements OnInit {
 
   private loadOrders() {
     this.orderService.getAll()
-      .pipe(takeUntil(this.unsubscribe$), tap(p => console.log(p)))
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe();
     this.orders = this.orderService.getAll();
   }
@@ -56,14 +58,15 @@ export class OrderListComponent implements OnInit {
         (err)=> {
           console.log(err);
         })
-
         
       }
 
-      
-
     });
     
+  }
+
+  logout() {
+    this.authenticationService.logout();
   }
 
   ngOnDestroy() {

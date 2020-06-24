@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Order } from '../model/order';
-import { BaseResourceService } from '../shared/base-resource.service';
+import { BaseResourceService } from '../shared/_services/base-resource.service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
