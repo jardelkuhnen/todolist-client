@@ -5,7 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 // services
 import { BaseService } from './base.service';
-import { BaseResourceModel } from '../model/base-resource.model';
+import { BaseResourceModel } from '../../model/base-resource.model';
 
 
 export abstract class BaseResourceService<T extends BaseResourceModel> extends BaseService {
