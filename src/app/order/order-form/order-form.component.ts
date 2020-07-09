@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { OrderItemService } from '../order-item.service';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-order-form',
@@ -21,13 +22,15 @@ export class OrderFormComponent implements OnInit {
     orderId: [null, []],
     orderDescription: ['', [Validators.required, Validators.minLength(2)]],
     itemDescription: ['', []],
-    itemIsFinished: [false, []]
+    itemIsFinished: [false, []],
+    itemPrice: ['', []]
   });
 
   editTitle: boolean = true;
   orderItens: OrderItem[] = [];
   isFinished = false;
   checked = false;
+  totalCount = 0;
   
   displayedColumns: string[] = ['description', 'finished', 'actions'];
 
@@ -67,6 +70,7 @@ export class OrderFormComponent implements OnInit {
       id: item.id,
       description: item.description,
       isFinished: event.checked,
+      price: item.price
     }
 
     this.orderItemServie.update(orderItem).subscribe();
@@ -76,14 +80,36 @@ export class OrderFormComponent implements OnInit {
     this.orderService.getById(orderId).subscribe(data => {
       let order: Order = data;
 
-      console.log(order.description);
-
       this.orderForm.get('orderDescription').setValue(order.description);
       this.orderForm.get('orderId').setValue(order.id);
       this.editTitle = false;
+
+      this.populateCountPrice(order.itens);
+
     });
   }
 
+
+  populateCountPrice(itens: OrderItem[]) {
+    
+    itens.forEach(item => {
+        if(item.isFinished) {
+          this.totalCount += item.price;
+        }  
+    });
+  }
+
+  updatePriceCountListagem(item: OrderItem) {
+
+    this.onSubmit();
+
+    if(item.isFinished) {
+      this.totalCount -= item.price;
+      return;
+    }
+
+    this.totalCount += item.price;
+  }
 
   addItem() {
     
@@ -97,12 +123,21 @@ export class OrderFormComponent implements OnInit {
     let orderItem: OrderItem = {
       description: this.orderForm.get('itemDescription').value,
       isFinished: this.orderForm.get('itemIsFinished').value,
+      price: Number(this.orderForm.get('itemPrice').value)
     }  
+
+    if(orderItem.isFinished) {
+      this.totalCount += orderItem.price;
+    }
 
     this.orderItens.push(orderItem);
     
     this.orderForm.controls['itemDescription'].setValue('');
+    this.orderForm.controls['itemPrice'].setValue('');
+
+    this.onSubmit();
   }
+
 
   onSubmit() {
     let order: Order = {
@@ -112,7 +147,7 @@ export class OrderFormComponent implements OnInit {
     }
 
     this.orderService.create(order).subscribe((data) => {
-      this.orderForm.reset();
+      //this.orderForm.reset();
     }, 
     (err)=> {
       let message = err.error.errors[0].defaultMessage;
@@ -120,8 +155,6 @@ export class OrderFormComponent implements OnInit {
       this.messages.open(message, "OK", {duration: 5000 });
     });
 
-
-    this.router.navigateByUrl('/');
   }
 
   ngOnDestroy() {
@@ -131,6 +164,9 @@ export class OrderFormComponent implements OnInit {
   deleteItem(item: OrderItem) {
     let index = this.orderItens.findIndex((it) => it.description === item.description)
     this.orderItens.splice(index, 1);
+
+    this.onSubmit();
+    this.totalCount -= item.price;
   }
 
 }

@@ -5,3 +5,8 @@ table {
 .description-column {
     width: 67%;
 }
+
+.right-align {
+    margin-left: 5px !important;
+    text-align: right;
+}

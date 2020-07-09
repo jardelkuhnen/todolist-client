@@ -38,7 +38,7 @@ export class LoginNewComponent implements OnInit {
 
 
   getRoles() {
-    return [Role.Admin, Role.User];
+    return [Role.User];
   }
 
   onSubmit() {
