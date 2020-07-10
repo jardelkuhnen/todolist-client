@@ -101,8 +101,6 @@ export class OrderFormComponent implements OnInit {
 
   updatePriceCountListagem(item: OrderItem) {
 
-    this.onSubmit();
-
     if(item.isFinished) {
       this.totalCount -= item.price;
       return;
@@ -135,7 +133,6 @@ export class OrderFormComponent implements OnInit {
     this.orderForm.controls['itemDescription'].setValue('');
     this.orderForm.controls['itemPrice'].setValue('');
 
-    this.onSubmit();
   }
 
 
@@ -146,14 +143,26 @@ export class OrderFormComponent implements OnInit {
       itens: this.orderItens
     }
 
-    this.orderService.create(order).subscribe((data) => {
-      //this.orderForm.reset();
-    }, 
+    this.orderService.create(order).subscribe((data) => {}, 
     (err)=> {
       let message = err.error.errors[0].defaultMessage;
 
       this.messages.open(message, "OK", {duration: 5000 });
     });
+
+
+    let itemUnfinished: boolean;
+    order.itens.forEach(item => {
+      if(!item.isFinished) {
+        itemUnfinished = true;
+        return;
+      }
+    });      
+
+    if(!itemUnfinished) {
+      this.orderForm.reset();
+      this.router.navigateByUrl('/');
+    }
 
   }
 
@@ -165,7 +174,6 @@ export class OrderFormComponent implements OnInit {
     let index = this.orderItens.findIndex((it) => it.description === item.description)
     this.orderItens.splice(index, 1);
 
-    this.onSubmit();
     this.totalCount -= item.price;
   }
 
