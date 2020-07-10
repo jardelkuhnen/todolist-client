@@ -171,7 +171,9 @@ export class OrderFormComponent implements OnInit {
       itens: this.orderItens
     }
 
-    this.orderService.create(order).subscribe((data) => {}, 
+    this.orderService.create(order).subscribe((data) => {
+      this.messages.open('Itens saved!', "OK", {duration: 5000 });
+    }, 
     (err)=> {
       let message = err.error.errors[0].defaultMessage;
 
