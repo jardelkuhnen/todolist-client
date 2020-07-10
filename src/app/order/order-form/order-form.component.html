@@ -18,13 +18,21 @@
                     <input matInput type="text" formControlName="itemDescription" placeholder="Item Description" >
                 </mat-form-field> 
                 
-                <section >
-                    <mat-checkbox formControlName="itemIsFinished">Finished ?</mat-checkbox>
+                <div class="price-container">
+                   
+                    <mat-form-field >
+                      <!-- <mat-label>Price</mat-label> -->
+                      <input matInput type="number" class="right-align" formControlName="itemPrice" placeholder="Price">
+                      <span matPrefix>R$&nbsp;</span>
+                    </mat-form-field>
+                    
+                    <mat-checkbox style="margin-left: 20px;" matInput formControlName="itemIsFinished" >Finished ?</mat-checkbox>
+
                     <button mat-icon-button color="primary" style="margin-left: 5px;" (click)="addItem()">
                         <mat-icon>add</mat-icon>
                     </button>
-                </section>
-
+                </div>
+    
             </div>
             
             <div fxFlex="100" fxLayout="row" fxLayoutAlign="end end" >
@@ -38,20 +46,28 @@
 
         <mat-divider style="margin-top: 10px;"></mat-divider>
 
+        <div style="margin-top: 10px;" fxFlex="100" fxLayout="row" fxLayoutAlign="end end" >
+            
+            <h4>Total Finished: {{ totalCount | currency:'BRL':true:'1.2-2' }}</h4>     
+
+        </div>
+
+        <mat-divider></mat-divider>
+
         <ng-container *ngIf="orderItens?.length > 0">
             <mat-list>
                 <h3 mat-subheader>Products</h3>
                 <mat-list-item *ngFor="let item of orderItens">
 
-                    <!-- <mat-icon mat-list-icon>bookmark</mat-icon> -->
+                    <h4 mat-line (click)="edit(item)">{{ item.description }}</h4>
+                    <h6 mat-line>{{ item.price | currency:'BRL':true:'1.2-2' }}</h6>
 
-                    <h4 mat-line>{{ item.description }}</h4>
-
-                    <mat-checkbox [(ngModel)]="item.isFinished">Finished</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="item.isFinished" (click)="updatePriceCountListagem(item)">Finished</mat-checkbox>
                     
                     <button mat-icon-button color="accent" type="button" (click)="deleteItem(item)">
                         <mat-icon>delete</mat-icon>
                     </button>
+                    <mat-divider style="margin-top: 5px;"></mat-divider>
                 </mat-list-item>
             </mat-list>
         </ng-container>
