@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, ɵangular_packages_router_router_b } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, Validators } from '@angular/forms';
 import { OrderItem } from 'src/app/model/orderItem';
@@ -77,6 +77,17 @@ export class OrderFormComponent implements OnInit {
     this.orderItemServie.update(orderItem).subscribe();
   }
 
+  edit(item: OrderItem) {
+    this.orderForm.get('itemDescription').setValue(item.description);
+    this.orderForm.get('itemIsFinished').setValue(item.isFinished);
+    this.orderForm.get('itemPrice').setValue(item.price);
+
+    let index: number = this.orderItens.indexOf(item);
+    this.orderItens.splice(index, 1);
+    
+    this.totalCount -= item.price;
+  }
+
   populateForm(orderId)  {
     this.orderService.getById(orderId).subscribe(data => {
       let order: Order = data;
@@ -84,8 +95,6 @@ export class OrderFormComponent implements OnInit {
       this.orderForm.get('orderDescription').setValue(order.description);
       this.orderForm.get('orderId').setValue(order.id);
       this.editTitle = false;
-
-      
 
     });
   }
@@ -110,12 +119,30 @@ export class OrderFormComponent implements OnInit {
     this.totalCount += item.price;
   }
 
+  existsItemSameDescriotion(itemDescription: string): Boolean {
+
+    let exists = false;
+
+    this.orderItens.forEach(item => {
+       if(item.description === itemDescription) {
+         exists = true;
+       }    
+    });
+
+    return exists;
+  }
+
   addItem() {
     
     let itemDescription = this.orderForm.get('itemDescription').value;
 
     if(itemDescription === '') {
       this.messages.open("Insert the item description", "OK", {duration: 2000 });
+      return;
+    }
+
+    if(this.existsItemSameDescriotion(itemDescription)) {
+      this.messages.open("Exists a item with same description!", "OK", {duration: 2000 });
       return;
     }
 

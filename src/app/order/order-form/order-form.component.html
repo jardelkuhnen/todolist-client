@@ -59,7 +59,7 @@
                 <h3 mat-subheader>Products</h3>
                 <mat-list-item *ngFor="let item of orderItens">
 
-                    <h4 mat-line>{{ item.description }}</h4>
+                    <h4 mat-line (click)="edit(item)">{{ item.description }}</h4>
                     <h6 mat-line>{{ item.price | currency:'BRL':true:'1.2-2' }}</h6>
 
                     <mat-checkbox [(ngModel)]="item.isFinished" (click)="updatePriceCountListagem(item)">Finished</mat-checkbox>
