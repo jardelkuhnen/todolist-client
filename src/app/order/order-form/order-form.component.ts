@@ -60,6 +60,7 @@ export class OrderFormComponent implements OnInit {
       )
       .subscribe((data: OrderItem[]) => {
         this.orderItens = data;
+        this.populateCountPrice(this.orderItens);
       });
 
   }
@@ -84,7 +85,7 @@ export class OrderFormComponent implements OnInit {
       this.orderForm.get('orderId').setValue(order.id);
       this.editTitle = false;
 
-      this.populateCountPrice(order.itens);
+      
 
     });
   }
