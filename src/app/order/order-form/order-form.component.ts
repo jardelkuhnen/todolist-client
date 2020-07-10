@@ -85,7 +85,10 @@ export class OrderFormComponent implements OnInit {
     let index: number = this.orderItens.indexOf(item);
     this.orderItens.splice(index, 1);
     
-    this.totalCount -= item.price;
+    if(item.isFinished) {
+      this.totalCount -= item.price;
+    }
+
   }
 
   populateForm(orderId)  {
