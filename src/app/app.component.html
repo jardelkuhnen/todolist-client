@@ -1,4 +1,38 @@
 
+<p>
+  <mat-toolbar color="accent">
+   <button mat-icon-button class="example-icon" [matMenuTriggerFor]="menu" *ngIf="isLogged">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="order">Todo List</button>
+    <button mat-menu-item>Item 2</button>
+  </mat-menu>
+  
+    <span routerLink='/' >{{ title }}</span>
+    <span class="example-spacer"></span>
+    
+
+    <button mat-icon-button class="example-icon" *ngIf="isLogged" routerLink="/">
+      <mat-icon>home</mat-icon>
+    </button>
+
+    <button mat-icon-button class="example-icon" [matMenuTriggerFor]="menu_acount" *ngIf="isLogged">
+    <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #menu_acount="matMenu">
+      <button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon>Logout</button>
+    </mat-menu>
+
+
+
+  </mat-toolbar>
+
+  <router-outlet flex="100" class="content"></router-outlet>
+</p>
+
+<!-- 
 <div layout="column" layout-fill>
   
   <div layout="row">
@@ -15,4 +49,4 @@
     
   </div>
 
-</div>
+</div> -->

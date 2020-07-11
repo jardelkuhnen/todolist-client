@@ -8,12 +8,13 @@ import { LoginNewComponent } from './login/login-new/login-new.component';
 import { LoginRecuperaPasswordComponent } from './login/login-recupera-password/login-recupera-password.component';
 import { AuthGuard } from './shared/auth.guard';
 import { Role } from './model/role';
+import { HomePageComponent } from './home-page/home-page.component';
 
 
 
 
 const routes: Routes = [
-  { path: '', component: OrderListComponent, canActivate: [AuthGuard], data: { roles: [Role.User, Role.Admin]} }, 
+  { path: '', component: HomePageComponent, canActivate: [AuthGuard], data: { roles: [Role.User, Role.Admin]} }, 
   { path: 'login', component: LoginFormComponent },
   { path: 'register', component: LoginNewComponent },
   { path: 'reset', component: LoginRecuperaPasswordComponent },

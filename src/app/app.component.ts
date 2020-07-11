@@ -1,8 +1,10 @@
-import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { getLocaleDateFormat, FormatWidth, DatePipe } from '@angular/common';
 import { Menu } from './model/menu';
 import { of, Observable } from 'rxjs';
+import { AuthenticationService } from './shared/_services/authentication.service';
+import { StorageService } from './shared/_services/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -11,15 +13,29 @@ import { of, Observable } from 'rxjs';
 })
 export class AppComponent {
  
-  title: string = 'Task List';
-  menus$: Observable<Menu[]>;
+  constructor(
+    private authenticationService: AuthenticationService,
+    private storageService: StorageService,
+    private router: Router) {}
 
-  constructor() {}
-    
-    ngOnInit(): void {
-      this.menus$ = this.getMenus();
-      this.title = 'Task List';
-    }
+  title: string = 'Todo App';
+  menus$: Observable<Menu[]>;
+  
+  isLogged = this.storageService.getItem('currentUser') != null ? true : false;
+
+
+  ngOnInit(): void {
+    this.menus$ = this.getMenus();
+    this.title = 'Task List';
+
+    this.storageService.watchStorage().subscribe(data => {
+      if(data === 'removed'){ 
+        this.isLogged = false;
+      } else {
+        this.isLogged = true;
+      }
+    });
+  }
 
     getMenus() {
       return of([
@@ -27,8 +43,9 @@ export class AppComponent {
       ]);
   }
 
-
- 
-
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigateByUrl('login');
+  }
   
 }

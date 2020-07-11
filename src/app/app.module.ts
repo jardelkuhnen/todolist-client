@@ -17,6 +17,7 @@ import { LoginNewComponent } from './login/login-new/login-new.component';
 import { LoginRecuperaPasswordComponent } from './login/login-recupera-password/login-recupera-password.component';
 import { JwtInterceptor } from './shared/jwt.interceptor';
 import { ErrorInterceptor } from './shared/error.interceptor';
+import { HomePageComponent } from './home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ErrorInterceptor } from './shared/error.interceptor';
     LoginFormComponent,
     LoginNewComponent,
     LoginRecuperaPasswordComponent,
+    HomePageComponent,
   ],
   imports: [
     BrowserModule,

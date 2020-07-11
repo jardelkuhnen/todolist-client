@@ -4,7 +4,7 @@
 
 
         <mat-nav-list *ngFor="let order of (orders | async)?.content; let i=index;">
-            <a mat-list-item [routerLink]="['order', order.id]">
+            <a mat-list-item routerLink="{{order.id}}">
 
                 <mat-icon mat-list-icon>assignment</mat-icon>
                 
@@ -20,14 +20,10 @@
         <mat-divider></mat-divider>
 
         <div fxFlex="100"  fxLayout="row" fxLayoutAlign="end end" style="margin-top: 5px;">
-            <button mat-fab color="accent" aria-label="Add new order" [routerLink]="['order', 'new']">
+            <button mat-fab color="accent" aria-label="Add new order" routerLink="new">
                 <mat-icon>add</mat-icon>
             </button>
 
-            <button mat-fab color="accent" aria-label="Add new order" (click)="logout()">
-                  Logout  
-            </button>
-           
         </div>
 
     </div>

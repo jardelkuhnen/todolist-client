@@ -65,10 +65,6 @@ export class OrderListComponent implements OnInit {
     
   }
 
-  logout() {
-    this.authenticationService.logout();
-  }
-
   ngOnDestroy() {
     this.unsubscribe$.next();
   }
