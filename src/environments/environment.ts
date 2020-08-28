@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // url: 'http://localhost:8080'
-  url: 'https://todolistserver.herokuapp.com'
+  url: 'http://162.144.232.59:80/app'
+  // url: 'https://todolistserver.herokuapp.com'
 };
 
 /*
